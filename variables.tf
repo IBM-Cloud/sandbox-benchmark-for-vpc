@@ -145,28 +145,28 @@ variable "sandbox_uipassword" {
   type        = string
   sensitive   = true
 
-   validation {
-    condition = length(var.sandbox_uipassword) > 11 && length(var.sandbox_uipassword) < 64
+  validation {
+    condition     = length(var.sandbox_uipassword) > 11 && length(var.sandbox_uipassword) < 64
     error_message = "Password must be 12 to 63 characters long."
   }
 
   validation {
-    condition = can(regex("[A-Z]", var.sandbox_uipassword))
+    condition     = can(regex("[A-Z]", var.sandbox_uipassword))
     error_message = "Password must contain at least one uppercase character."
   }
 
   validation {
-    condition = can(regex("[a-z]", var.sandbox_uipassword))
+    condition     = can(regex("[a-z]", var.sandbox_uipassword))
     error_message = "Password must contain at least one lowercase character."
   }
 
   validation {
-    condition = can(regex("[0-9]", var.sandbox_uipassword))
+    condition     = can(regex("[0-9]", var.sandbox_uipassword))
     error_message = "Password must contain at least one number."
   }
 
   validation {
-    condition = !can(regex(".*password.*", var.sandbox_uipassword))
+    condition     = !can(regex(".*password.*", var.sandbox_uipassword))
     error_message = "Password cannot contain the word 'password'."
   }
 }

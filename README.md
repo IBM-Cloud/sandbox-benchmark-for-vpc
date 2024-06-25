@@ -96,7 +96,7 @@ after successful provisioning of the resources.
 
 Terraform IAC creates a trusted profile for compute resource identities in IBM Cloud Identity
 and Access Management, and then assigns access rights for IAM-enabled services to a virtual server
-instance. The following roles are provided to the IAM Trusted profiles: "Writer", "Viewer", "Reader", "Editor. 
+instance. The following roles are provided to the IAM Trusted profiles: "Writer", "Viewer", "Reader", "Editor.
 This profile is used by the dashboard VSI to authenticate with IBM Cloud.
 
 #### Security groups
@@ -195,28 +195,28 @@ Time. Hot patches are released on demand.
 | <a name="input_address_prefix_cidrs"></a> [address\_prefix\_cidrs](#input\_address\_prefix\_cidrs) | Address prefixes to create in the VPC | `list(string)` | `[]` | no |
 | <a name="input_basename"></a> [basename](#input\_basename) | Basename of the created resource | `string` | `"sbox"` | no |
 | <a name="input_dashboard-machine-type"></a> [dashboard-machine-type](#input\_dashboard-machine-type) | Application 1 VM machine types | `string` | `"bx2d-4x16"` | no |
-| <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM-enabled resources | `string` | n/a | yes |
+| <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM enabled resources | `string` | n/a | yes |
 | <a name="input_ibmcloud_ssh_key_name"></a> [ibmcloud\_ssh\_key\_name](#input\_ibmcloud\_ssh\_key\_name) | The IBM Cloud platform SSH key name used to deploy sandbox instances | `string` | n/a | yes |
 | <a name="input_logdna_enable_platform"></a> [logdna\_enable\_platform](#input\_logdna\_enable\_platform) | Enables logging | `bool` | `false` | no |
-| <a name="input_logdna_ingestion_key"></a> [logdna\_ingestion\_key](#input\_logdna\_ingestion\_key) | Provide existing LogDNA instance ingestion key. To get ingestion key, follow this `https://cloud.ibm.com/docs/log-analysis?topic=log-analysis-ingestion_key&interface=ui`. If not set, a new instance of LogDNA is created when `logdna_integration` is true. | `string` | `""` | no |
-| <a name="input_logdna_integration"></a> [logdna\_integration](#input\_logdna\_integration) | Set to false if LogDNA is not needed; only recommend disabling for non-production environments. | `bool` | n/a | yes |
-| <a name="input_logdna_name"></a> [logdna\_name](#input\_logdna\_name) | Name for LogDNA instance. | `string` | `"logging"` | no |
-| <a name="input_logdna_plan"></a> [logdna\_plan](#input\_logdna\_plan) | Service plan used for new LogDNA instance. | `string` | n/a | yes |
-| <a name="input_personal_access_token"></a> [personal\_access\_token](#input\_personal\_access\_token) | Personal access token (internal IBM use only) | `string` | `""` | no |
-| <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where all resources will be deployed. SPR VSIs are only available in Dallas (us-south) region | `string` | `"us-south"` | no |
-| <a name="input_remote_allowed_ips"></a> [remote\_allowed\_ips](#input\_remote\_allowed\_ips) | List of IPs to allow access to this bastion host | `list(string)` | n/a | yes |
-| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | The IBM resource group name to be associated with this IBM Cloud VPC sandbox deployment | `string` | n/a | yes |
-| <a name="input_sandbox_ui_repo_url"></a> [sandbox\_ui\_repo\_url](#input\_sandbox\_ui\_repo\_url) | Sandbox UI repo download URL. Sample repo URL https://github.com/username/repository-name/archive/master.zip | `string` | n/a | yes |
-| <a name="input_sandbox_uipassword"></a> [sandbox\_uipassword](#input\_sandbox\_uipassword) | Sandbox UI Password | `string` | n/a | yes |
-| <a name="input_subnet_cidrs"></a> [subnet\_cidrs](#input\_subnet\_cidrs) | Subnet CIDRs to use in each zone, required when using `address_prefix_cidrs` | `list(string)` | `[]` | no |
+| <a name="input_logdna_ingestion_key"></a> [logdna\_ingestion\_key](#input\_logdna\_ingestion\_key) | Provide existing LogDNA instance ingestion key. To get ingestion key, please follow this `https://cloud.ibm.com/docs/log-analysis?topic=log-analysis-ingestion_key&interface=ui`. If not set, a new instance of LogDNA will be created when `logdna_integration` is true. | `string` | `""` | no |
+| <a name="input_logdna_integration"></a> [logdna\_integration](#input\_logdna\_integration) | Set to false if LogDNA not needed, only recommend disabling for non-production environments. | `bool` | `true` | no |
+| <a name="input_logdna_name"></a> [logdna\_name](#input\_logdna\_name) | Name for LogDNA Instance. | `string` | `"logging"` | no |
+| <a name="input_logdna_plan"></a> [logdna\_plan](#input\_logdna\_plan) | Service plan used for new LogDNA instance, valid options are lite, 7-day, 14-day, 30-day, hipaa | `string` | `"lite"` | no |
+| <a name="input_personal_access_token"></a> [personal\_access\_token](#input\_personal\_access\_token) | Personal access token, Internal IBM use only | `string` | `""` | no |
+| <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where all resources will be deployed. SPR VSIs are available in Dallas, London, Frankfurt etc. Please refer [this](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui#next-gen-profiles) | `string` | `"us-south"` | no |
+| <a name="input_remote_allowed_ips"></a> [remote\_allowed\_ips](#input\_remote\_allowed\_ips) | List of ips to allow access to this bastion host | `list(string)` | n/a | yes |
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | The IBM resource group name to be associated with this IBM Cloud VPC Sandbox deployment | `string` | `"Default"` | no |
+| <a name="input_sandbox_ui_repo_url"></a> [sandbox\_ui\_repo\_url](#input\_sandbox\_ui\_repo\_url) | Sandbox UI repo download URL, Sample repo URL https://github.com/username/repository-name/archive/master.zip | `string` | `"https://github.com/IBM-Cloud/sandbox-benchmark-dashboard-for-vpc/archive/main.zip"` | no |
+| <a name="input_sandbox_uipassword"></a> [sandbox\_uipassword](#input\_sandbox\_uipassword) | Sandbox UI password. Password must contain at least one uppercase character, one lowercase character, one number, and cannot contain the word 'password'. Password must be 12 to 63 characters long. | `string` | n/a | yes |
+| <a name="input_subnet_cidrs"></a> [subnet\_cidrs](#input\_subnet\_cidrs) | Subnet cidrs to use in each zone, required when using `address_prefix_cidrs` | `list(string)` | `[]` | no |
 | <a name="input_subnet_ipv4_count"></a> [subnet\_ipv4\_count](#input\_subnet\_ipv4\_count) | Count of ipv4 address in each zone, ignored when using `address_prefix_cidrs` | `number` | `256` | no |
-| <a name="input_zones"></a> [zones](#input\_zones) | IBM Cloud zone name within the selected region where the sandbox infrastructure should be deployed. [Learn more](https://cloud.ibm.com/docs/vpc?topic=vpc-creating-a-vpc-in-a-different-region#get-zones-using-the-cli) | `list(string)` | n/a | yes |
+| <a name="input_zones"></a> [zones](#input\_zones) | IBM Cloud zone name within the selected region where the Sandbox infrastructure should be deployed. [Learn more](https://cloud.ibm.com/docs/vpc?topic=vpc-creating-a-vpc-in-a-different-region#get-zones-using-the-cli) | `list(string)` | <pre>[<br>  "us-south-1"<br>]</pre> | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_access_info"></a> [access\_info](#output\_access\_info) | Provides the commands needed to access the instances through the bastion tunnel |
-| <a name="output_trusted_profile"></a> [trusted\_profile](#output\_trusted\_profile) | The ID of the trusted profile |
-| <a name="output_vpc_name"></a> [vpc\_name](#output\_vpc\_name) | The ID of the VPC |
+| <a name="output_access_info"></a> [access\_info](#output\_access\_info) | Provides the commands needed to access the instances via the bastion tunnel |
+| <a name="output_trusted_profile"></a> [trusted\_profile](#output\_trusted\_profile) | The ID of the Trusted profile |
+| <a name="output_vpc_name"></a> [vpc\_name](#output\_vpc\_name) | The ID of the vpc |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
