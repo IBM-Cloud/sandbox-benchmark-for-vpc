@@ -104,7 +104,7 @@ This section describes the process of using the IBM Cloud VPC sandbox environmen
    - **ibmcloud_ssh_key_name**: Obtain this value by completing the prerequisites. Additionally,
      download the SSH private key, which will be used to log in to the Bastion host.
    - **resource_group**: Obtain this value by completing the prerequisites.
-   - **personal_access_token**: Obtain this value by completing the prerequisites.
+   - **personal_access_token**: Obtain this value by completing the prerequisites, Internal IBM use only.
    - **zones**: `["us-south-1"]`
      Optionally, you can choose `us-south-2` or `us-south-3`.
    - **remote_allowed_ips**: Your Public IP address, from which you intend to access the sandbox
@@ -247,7 +247,7 @@ wget -O- https://assets.logdna.com/logdna.gpg | sudo apt-key add -
 sudo apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get install logdna-agent -y
 sudo bash -c 'cat << EOF > /etc/logdna.env
-LOGDNA_HOST="logs.us-south.logging.cloud.ibm.com"
+LOGDNA_HOST="logs.REGION.logging.cloud.ibm.com"
 LOGDNA_ENDPOINT=/logs/agent
 LOGDNA_INGESTION_KEY="LOGDNA_INGESTION_KEY"
 EOF'

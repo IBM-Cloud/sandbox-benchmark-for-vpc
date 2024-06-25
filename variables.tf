@@ -40,25 +40,15 @@ variable "resource_group" {
 }
 
 variable "region" {
-  description = "IBM Cloud region where all resources will be deployed. SPR VSIs are only available in Dallas (us-south) region"
+  description = "IBM Cloud region where all resources will be deployed. SPR VSIs are available in Dallas, London, Frankfurt etc. Please refer [this](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui#next-gen-profiles)"
   type        = string
   default     = "us-south"
-  validation {
-    condition = contains([
-      "us-south"
-    ], var.region)
-    error_message = "SPR VSIs are only available in Dallas (us-south) region."
-  }
 }
 
 variable "zones" {
   description = "IBM Cloud zone name within the selected region where the Sandbox infrastructure should be deployed. [Learn more](https://cloud.ibm.com/docs/vpc?topic=vpc-creating-a-vpc-in-a-different-region#get-zones-using-the-cli)"
   type        = list(string)
   default     = ["us-south-1"]
-  validation {
-    condition     = length(var.zones) >= 1 && alltrue([for zone in var.zones : startswith(zone, "us-south-")])
-    error_message = "There should be at least one zone specified or all zones must start with the region prefix 'us-south-'."
-  }
 }
 
 variable "address_prefix_cidrs" {
