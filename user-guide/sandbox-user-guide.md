@@ -2,56 +2,47 @@
 
 ### Introduction
 
-IBM Cloud VPC sandbox not only showcases the technological advancements of IBM Cloud but also
-reinforces its commitment to providing a playground for user-centric innovation and hands-on
-learning.
+The IBM Cloud VPC sandbox creates a nonproduction environment to quickly benchmark and compare various workloads' performance with IBM Cloud VSIs that are equipped with the latest Intel processors. You can run preselected workload benchmarks or deploy your application for performance evaluation.
 
-### Prerequisite
+This user guide provides you with step-by-step instructions for deploying the automation code to your IBM Cloud account and running performance benchmarks on Intel Cascade Lakes and Sapphire Rapids CPU.
 
-1. You should have an IBM Cloud account to deploy IBM Cloud Virtual Servers for VPC sandbox.
+This deployment uses Terraform and IBM Cloud Schematics as automation frameworks.
 
-2. You should have an IBM Cloud API key to enable Terraform connection to the IBM Cloud
-   Terraform provider. This API key facilitates resource provisioning under the user's
-   identity. Refer to [Create API Key](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui#create_user_key) for instructions.
+### Roles and responsibility
+The IBM Cloud VPC sandbox is a customer-managed, automated deployment deployed into your IBM Cloud VPC account. You own the resources that the automated deployment creates and are responsible for managing them.
 
-3. You should have an IBM SSH key for both the bastion Host VSI and dashboard VSI. Refer to
-   [Create SSH Key](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui) for instructions.
+**NOTE:** To minimize cost, it is recommended that the resources be deleted after completion.
 
-4. You should have IBM Resource Group permissions to provision the VPC infrastructure, IBM Cloud Trusted profiles and LogDNA
-   instance. Refer to [Create Resource Group](https://cloud.ibm.com/docs/account?topic=account-rgs&interface=ui) for instructions.
+### Prerequisites
 
-5. You should have a Personal Access Token to pull GitHub repositories. This token is only
-   applicable for IBM internal GitHub repositories. Refer to [Create Personal Access Token](https://docs.github.com/en/enterprise-server@3.9/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) for instructions.
+1. An IBM Cloud account to deploy IBM Cloud Virtual Servers for VPC Sandbox.
+2. An IBM Cloud API key. For instructions, refer to [Create API Key](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui#create_user_key).
+3. An IBM SSH key for the bastion host VSI and dashboard VSI. For instructions, refer to [Create SSH Key](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui).
+4. The following permissions:
+   
+   | Service | Platform roles | Service roles | Reference links |
+   |---|---|---|---|
+   | All Account Management services | Administrator | | For [trusted profile](https://cloud.ibm.com/docs/account?topic=account-create-trusted-profile&interface=ui#tp-roles-reqs) |
+   | IAM Identity Service | Administrator | | For [trusted profile](https://cloud.ibm.com/docs/account?topic=account-create-trusted-profile&interface=ui#tp-roles-reqs) |
+   | IBM Log Analysis | Editor | Manager | [Log Analysis Access](https://cloud.ibm.com/docs/log-analysis?topic=log-analysis-work_iam#devops_account) |
+   | VPC Infrastructure | Editor | Manager | [VPC Managing Access](https://cloud.ibm.com/docs/vpc?topic=vpc-iam-getting-started&interface=ui) | 
 
-### Purpose of the IBM Cloud Virtual Servers for VPC sandbox
+### High-level flow for deploying and using the sandbox environment
 
-The IBM Cloud VPC sandbox is a customer managed, automated deployment/configuration, that is
-deployed into your IBM account using the virtual server instances (VSIs). Resources that are
-created by the automated deployment are owned by you. Management of those resources is your
-responsibility. IBM creates and configures the sandbox installation and infrastructure required by
-using best practices.
-
-The goal of the sandbox is to provide a non-production playground environment, enabling you to
-quickly benchmark various workloads for their performance on the latest IBM Cloud VSIs. You can
-run pre-selected workload benchmarks or deploy your own application workloads for performance
-evaluation.
-
-### User Journey
-
-This section outlines a top-level overview, showcasing the entire journey for the user to deploy
+This section outlines a top-level overview, showcasing the entire journey for you to deploy
 the IBM Cloud VPC sandbox.
 
 #### Step 1: Deploy IBM Cloud VPC sandbox deployment using IBM Cloud Schematics
 
 - Log in to the IBM Cloud account and select the IBM Cloud Schematics service.
 - Create an IBM Cloud Schematics workspace with the sandbox GitHub repository and deploy the IBM
-  Cloud VPC sandbox.Please refer [VPC sandbox deployment step 3 ](#ibm-cloud-virtual-servers-for-vpc-sandbox-deployment) for more details on the required input variables. This process takes approximately 20 minutes.
+  Cloud VPC sandbox. Refer to [VPC sandbox deployment step 3](#ibm-cloud-virtual-servers-for-vpc-sandbox-deployment) for more details on the required input variables. This process takes approximately 20 minutes.
 
 #### Step 2: Setup application VSIs from sandbox dashboard portal
 
-- Access the sandbox dashboard from a local browser using '<http://localhost:38080>' and log in
+- Access the sandbox dashboard from a local browser by using '<http://localhost:38080>' and log in
   with 'admin' credentials.
-- Deploy the application VSIs by clicking on the Setup button.
+- Deploy the application VSIs by clicking **Setup**.
 
 #### Step 3: Run preselected benchmark application or user application
 
@@ -62,26 +53,25 @@ the IBM Cloud VPC sandbox.
 - Navigate to the performance dashboard page and evaluate performance data for preselected
   benchmark applications or user application.
 
-#### Step 5: Delete Application VSIs
+#### Step 5: Delete application VSIs
 
 - After evaluating performance data, delete the application VSIs.
 
-Important Note: Please note that when you run the IBM Cloud Virtual Servers for VPC sandbox, you
-will incur the respective costs for the IBM Cloud resources used.  To minimize the costs of
-running the sandbox, please use the "Delete process” after every application that you setup and
-run in the sandbox dashboard to evaluate performance. After deleting the individual sandbox
+> **Important note:** When you run the IBM Cloud Virtual Servers for VPC Sandbox,
+you incur the respective costs for the IBM Cloud resources used. To minimize the costs of
+running the sandbox, use the "Delete process” after every application that you set up and
+run in the sandbox dashboard to evaluate performance. After you delete the individual sandbox
 applications VSIs resources, you must also delete the corresponding workspace environment
-separately using IBM Cloud Schematics capability to eliminate incurring any costs for the sandbox.
-IBM Schematics will not delete application VSIs created from the sandbox dashboard. Users must
-delete them from the sandbox dashboard only.
+separately by using IBM Cloud Schematics capability to eliminate incurring any costs for the sandbox.
+IBM Schematics will not delete application VSIs created from the sandbox dashboard. Delete them from 
+the sandbox dashboard only.
 
-#### Step 6: Destroy IBM Cloud VPC sandbox resources via IBM Schematics and delete the workspace
+#### Step 6: Destroy IBM Cloud VPC sandbox resources through IBM Schematics and delete the workspace
 
-- Once the application VSIs are deleted, destroy the IBM Cloud VPC sandbox resources and delete
+- After the application VSIs are deleted, destroy the IBM Cloud VPC sandbox resources and delete
   the IBM Schematics workspace.
 
-### IBM Cloud Virtual Servers for VPC sandbox deployment
-
+### Detail flow for deploying and using the sandbox environment
 This section describes the process of using the IBM Cloud VPC sandbox environment.
 
 #### IBM Cloud VPC sandbox deployment using IBM Cloud Schematics
@@ -93,48 +83,52 @@ This section describes the process of using the IBM Cloud VPC sandbox environmen
 
 2. Create a Schematics workspace and deploy the IBM Cloud sandbox environment with the
    IBM-provided GitHub URL where the Terraform module exists. The repository located at
-   <https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc.git> will be used in Schematics Workspace.
+   <https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc> is used in Schematics Workspace.
 
 ![](./images/image2.png)
 
 3. After you create the sandbox workspace, provide the required inputs in the IBM Schematics for
-   Terraform module and click "Apply plan" to deploy the sandbox environment. Here are the
-   necessary input variables:
+   Terraform module and click "Apply plan" to deploy the sandbox environment:
    - **ibmcloud_api_key**: Obtain this value by completing the prerequisites.
    - **ibmcloud_ssh_key_name**: Obtain this value by completing the prerequisites. Additionally,
-     download the SSH private key, which will be used to log in to the Bastion host.
+     download the SSH private key, which is used to log in to the bastion host.
    - **resource_group**: Obtain this value by completing the prerequisites.
-   - **personal_access_token**: Obtain this value by completing the prerequisites, Internal IBM use only.
+   - **personal_access_token**: Obtain this value by completing the prerequisites. Internal IBM
+     use only
    - **zones**: `["us-south-1"]`
      Optionally, you can choose `us-south-2` or `us-south-3`.
-   - **remote_allowed_ips**: Your Public IP address, from which you intend to access the sandbox
-     dashboard, should be provided in this format: `["PublicIP"]`.
+   - **remote_allowed_ips**: To access the sandbox dashboard, provide your current public
+     IP address. If you're unsure how to find it, you can use an online service such as 'What is
+     my IP' or consult your internet service provider. After you obtain your public IP
+     address, format it as follows: `["PublicIP"]`.
    - **logdna_integration**: Set to `true`.
      You can choose false if you don't want LogDNA integration.
    - **logdna_plan**: Set to `lite`
      Valid options are `lite`, `7-day`, `14-day`, `30-day`, `hipaa`.
-   - **sandbox_ui_repo_url**: Set to `https://github.com/IBM-Cloud/sandbox-benchmark-dashboard-for-vpc/archive/main.zip`
-   - **sandbox_uipassword**: Provide the sandbox dashboard password
+   - **sandbox_ui_repo_url**: Set to `https://github.com/IBM-Cloud/sandbox-benchmark-dashboard-for-vpc/archive/refs/heads/main.zip`
+   - **sandbox_uipassword**: Provide the sandbox dashboard password.
 
-   The repository located at <https://github.com/IBM-Cloud/sandbox-benchmark-dashboard-for-vpc.git> will be
+   The repository located at <https://github.com/IBM-Cloud/sandbox-benchmark-dashboard-for-vpc> is
    used for setting up the sandbox dashboard application.
+   
+   **NOTE:** For sensitive data, it is recommended to check the "Sensitive" box.
 
 ![](./images/image3.png)
 
 4. After a successful "Apply plan", you get the sandbox **access_info** command in the Terraform
    output. You can use the **access_info** command in your local terminal and access the sandbox
-   environment from your browser. See the following sample access_info command output:
+   environment from your browser. See the following sample `access_info` command output:
 
    `ssh -i [SSHKeyPath] -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -L
    38080:[DashboardIP]:80 root@[BastionHostIP]`
 
-   SSHKeyPath would be ssh-key private key path which you have passed in Terraform module to
-   access the Bastion host. If you don't have any ssh-key created/downloaded before, you can
-   create one ssh-key first and use the same key for sandbox environment.
+   SSHKeyPath is a private SSH key path that you passed in the Terraform module to
+   access the bastion host. If you don't have any SSH keys created or downloaded, you can
+   create an SSH key and use the same key for the sandbox environment.
 
-    > NOTE: Don't attach Public IP (FIP) to the dashboard VSI to access the sandbox without
-    > Bastion host. **The setup of the sandbox application will take approximately 15 minutes
-    > after the apply plan shows successful.** You can view the logs in LogDNA instance also. See
+    > NOTE: Don't attach public IP (FIP) to the dashboard VSI to access the sandbox without the
+    > bastion host. **The setup of the sandbox application will take approximately 15 minutes
+    > after the apply plan shows successful.** You can view the logs in LogDNA instance. See
     > [View LogDNA Logs](https://cloud.ibm.com/docs/log-analysis?topic=log-analysis-launch)
 
     After the command runs successfully, the tunnel is set up between the local machine and the
@@ -143,11 +137,11 @@ This section describes the process of using the IBM Cloud VPC sandbox environmen
 
     `http://localhost:38080`
 
-    If the apply plan fails, please check the errors in the Terraform outputs.
+    If the apply plan fails, check the errors in the Terraform outputs.
 
 **Apply plan shows successful:**
 
-You can get the access_info command details from the Terraform outputs as shown in below
+You can get the `access_info` command details from the Terraform outputs as shown in the following
 screenshot.
 
 ![](./images/image4.png)
@@ -155,9 +149,7 @@ screenshot.
 ![](./images/image5.png)
 
 5. You can enter the following URL in your browser, explore the sandbox dashboard portal, and
-   deploy preselected applications, VSIs, and their own workloads.
-
-    `http://localhost:38080`
+   deploy preselected applications, VSIs, and their own workloads: `http://localhost:38080`
 
 **Sandbox dashboard portal login page**
 
@@ -171,17 +163,17 @@ workloads to evaluate the performance differences between IBM Cloud VPC SPR and 
 
 ![](./images/image7.png)
 
-**PreSelected Performance Applications or Workloads**
+**Pre-selected performance applications or workloads**
 
 The sandbox targets two application workloads and one customer-owned application.
 
-1. **Monte Carlo Simulation:** It is a Financial Workload sample app based on mathematical
+1. **Monte Carlo simulation:** It is a financial workload sample app based on mathematical
     technique with some default load values that rely on repeated random sampling to obtain
-    numerical results. This will provide the Operations per Second as a performance metric and API
-    will capture Memory Utilization, CPU Utilization as well for each benchmark run.
+    numerical results. This provides the operations per second as a performance metric and the API
+    captures memory utilization and CPU utilization as well for each benchmark run.
 
-    In Monte Carlo workload, 8 or 16 vCPUs VSIs profiles of SPR (Bx3d-8x40 or Bx3d-16x80) and CLX
-    (Bx2d-8x32 or Bx2d-16x64) will be deployed and used. It will create two VSIs - CLX-based VSIs
+    In a Monte Carlo workload, 8 or 16 vCPUs VSIs profiles of SPR (Bx3d-8x40 or Bx3d-16x80) and CLX
+    (Bx2d-8x32 or Bx2d-16x64) are deployed and used. It creates two VSIs: CLX-based VSIs
     and SPR-based VSIs.
 
     Reference: [Monte Carlo Simulation](https://github.com/intel/Financial-Services-Workload-Samples/tree/main/MonteCarloEuropeanOptions)
@@ -189,25 +181,41 @@ The sandbox targets two application workloads and one customer-owned application
 2. **HuggingFace Inference Application:** The HuggingFace inference-based benchmark runs several
     NLP models on a text classification task: Bert-base-uncased and Roberta-base. Working with
     popular HuggingFace transformers implemented with PyTorch and the latest version of
-    HuggingFace Optimum Intel, an open-source library dedicated to hardware acceleration for Intel
-    platforms.
+    HuggingFace Optimum Intel, HuggingFace is an open-source library dedicated to hardware 
+    acceleration for Intel platforms.
 
-    For HuggingFace workload, the 16 vCPUs VSIs profiles of SPR (Bx3d-16x80) and CLX (Bx2d-16x64)
-    will be deployed and used. It will create two VSIs - CLX-based VSI and SPR-based VSI.
+    For a HuggingFace workload, the 16 vCPUs VSIs profiles of SPR (Bx3d-16x80) and CLX (Bx2d-16x64)
+    are deployed and used. It creates two VSIs: CLX-based VSIs and SPR-based VSIs.
 
     Reference: [HuggingFace](https://huggingface.co/blog/intel-sapphire-rapids-inference)
 
-3. **Bring Your Own (BYO) Application:** Users can deploy their own applications to experience the
+3. **Bring Your Own (BYO) application:** You can deploy your own applications to experience the
     performance of the latest generation SPR VSIs and compare it to the previous generation CLX
-    VSIs. Users can enter/upload their installer and runner file from the dashboard UI to
-    install/run their application. Only supported format is shell scripts.
+    VSIs. You can enter or upload your installer and runner file from the dashboard UI to
+    install or run your application. The only supported format is shell scripts.
 
-    For BYO Application workload, the user is provided with 8 or 16 vCPUs VSIs profiles of SPR-based
-    (Bx3d-8x40 or Bx3d-16x80) and CLX-based (Bx2d-8x32 or Bx2d-16x64). It will create two VSIs, one
+    For a BYO application workload, you are provided with 8 or 16 vCPUs VSIs profiles of SPR-based
+    (Bx3d-8x40 or Bx3d-16x80) and CLX-based (Bx2d-8x32 or Bx2d-16x64). It creates two VSIs: one
     CLX-based VSI and SPR-based VSI.
 
-**NOTE:** The IBM Cloud sandbox uses **Ubuntu 22.04** image for executing all
-the performance benchmarks. Please make sure your BYO application and related runner scripts run
+4. **Data Lake application using Presto:** In Data Lake applications, assessing the performance of
+   Presto DB is crucial for efficient data querying and analytics. The TPC-H benchmark serves as a
+   standardized method to evaluate Presto's performance by measuring its ability to run
+   complex queries on large datasets distributed across heterogeneous data sources. Running TPC-H
+   queries on Presto is crucial for assessing query execution time, which is essential for
+   decision support workloads in Data Lake environments. The Benchto project aims to simplify the
+   process of defining, running, and analyzing macro benchmarks. It acknowledges that
+   understanding the behavior of distributed systems is challenging and requires clear visibility
+   into the cluster's state and the internals of the tested system. This project was developed for
+   repeatable benchmarking of Hadoop SQL engines, most importantly [PrestoDB](https://prestodb.io/).
+
+   For a Presto workload, the 16 vCPUs VSIs profiles of SPR (Bx3d-16x80) and CLX (Bx2d-16x64)
+   are deployed and used. It creates two VSIs: CLX-based VSI and SPR-based VSI.
+
+    Reference: [Presto](https://github.com/prestodb/presto), [Benchto](https://github.com/prestodb/benchto), [Hadoop](https://hadoop.apache.org/), [Hive](https://hive.apache.org/)
+
+**NOTE:** The IBM Cloud sandbox uses a **Ubuntu 22.04** image for running all
+the performance benchmarks. Make sure your BYO application and related runner scripts run
 successfully in the Ubuntu 22.04 operating system.
 
 ### Deploying applications or workloads
@@ -226,19 +234,17 @@ You can select the VSIs profiles for application workloads.
 
 **Installing and setting up the BYO application:**
 
-When you initiates a setup for the BYO application, it allows you an option to pass a
-user-data script to install and set up their workload application. The only supported format is
-shell scripts. This user-data will be executed by cloud-init in the VSI and copied to
+When you initiate a setup for the BYO application, you can pass a user-data script to install and set up your workload application. The only supported format is shell scripts. This user-data is executed by cloud-init in the VSI and copied to
 the /var/lib/cloud/instance/ directory. You can find the execution logs of the user-data script
-in the /var/log/cloud-init-output.log file in the BYO application VSIs. Optionally, you can setup the IBM
+in the /var/log/cloud-init-output.log file in the BYO application VSIs. Optionally, you can set up the IBM
 Cloud LogDNA service with BYO application VSIs to see the application installation logs.
 
-Below is the sample installation script for BYO application. The sample script also shows how to
-setup up LogDNA Service if needed. You need to get the **LOGDNA_INGESTION_KEY** from LogDNA service
-and then replace it in the below script to enable the LogDNA for the BYO Application VSIs.
+The following example is a sample installation script for BYO application. The sample script also shows how to
+set up up LogDNA Service if needed. You need to get the **LOGDNA_INGESTION_KEY** from LogDNA service
+and then replace it in the following script to enable the LogDNA for the BYO application VSIs.
 
-**Sample script to install the user's workload:** Please note that the script below is a sample
-only, your script for your application may vary.
+**Sample script to install the user's workload:** The following script is a sample
+only; your script for your application might vary.
 
 ```
 #!/bin/bash
@@ -267,28 +273,31 @@ sudo ln -s /usr/lib/x86_64-linux-gnu/libmkl_core.so /usr/lib/x86_64-linux-gnu/li
 ```
 
 **Entering or uploading the BYO application script:** Enter your BYO application install and setup script in the BYO
-application and environment details page. See below.
+application and environment details page. See the following:
 
 ![](./images/image9.png)
 
-The status of the application VSIs in Configuration Details page shown as below:
+The status of the application VSIs in Configuration Details page:
 
 ![](./images/image10.png)
 
-2. **Running the Benchmark:** After successful creation of VSIs, you can run the benchmark for
-the selected application or workload from the dashboard portal. For Monte Carlo application, run
-benchmark will take around 30-45 seconds and for HuggingFace, it will take around 2 minutes.
+2. **Running the benchmark:** After successful creation of VSIs, you can run the benchmark for the
+selected application or workload from the dashboard portal. For a Monte Carlo application, run
+benchmark takes around 30-45 seconds; for HuggingFace, it takes around 2 minutes; and for
+the Presto application, you have the flexibility to choose which queries to run. Each
+individual query typically requires 2-5 minutes to complete, while running all queries
+collectively usually takes around 15 minutes.
 
 ![](./images/image11.png)
 
-**BYO Application Run Benchmark:** On the BYO application Run benchmark page, you can pass the .sh runner
-script to run their BYO application.
+**BYO application Run Benchmark:** On the BYO application "Run benchmark" page, you can pass the .sh runner
+script to run the BYO application.
 
 ![](./images/image12.png)
 
 The only supported format is shell scripts.
 
-Please note that the script below is a sample only, your script for your application may vary.
+The following script is a sample only; your script for your application might vary.
 
 ```
 #!/bin/bash
@@ -297,66 +306,112 @@ Please note that the script below is a sample only, your script for your applica
 ```
 
 You can navigate to the Performance Dashboard page for every run benchmark result and compare the
-performance uplift between the SPR vs CLX VSIs.
+performance uplift between the SPR and CLX VSIs.
 
 3. **Performance Dashboards**
 
-Application performance dashboard can help you to gain valuable insights into the CLX vs SPR
+Application performance dashboard can help you to gain valuable insights into the CLX and SPR
 performance uplift, enabling proactive monitoring.
 
 **Monte Carlo Simulation Performance Dashboard:**
 
-The graph visualizes the Normalized Performance uplift and Simulation operations per second for
+The graph visualizes the normalized performance uplift and simulation operations per second for
 the VSIs that have been created during the deployment.
 
-In below sample, the x-axis represents time, the left y-axis represents Normalized Performance
-Uplift (percentage), and the right y-axis represents Simulation Operations per second. Each line
+In the following sample, the x-axis represents time, the left y-axis represents normalized performance
+uplift (percentage), and the right y-axis represents simulation operations per second. Each line
 represents the trend of its respective metric over time.
 
 ![](./images/image13.png)
 
 **HuggingFace Inference Application Performance Dashboard:**
 
-The graph visualizes the Model Inference Time for 100 Iterations(in milliseconds) for the
+The graph visualizes the Model Inference Time for 100 Iterations (in milliseconds) for the
 Bert-base-uncased Model and Roberto-base Model for the VSIs created during the deployment.
 
-In below sample, the x-axis represents Model Inference Time for 100 Iterations(in milliseconds),
-the left y-axis represents VSIs name and the right y-axis also represents VSIs name. Each line
+In the following sample, the x-axis represents Model Inference Time for 100 Iterations (in milliseconds),
+the left y-axis represents VSIs name, and the right y-axis also represents VSIs name. Each line
 represents the trend of its respective metric over time.
 
 ![](./images/image14.png)
 
 **BYO Application Performance Dashboard:**
 
-Below Performance Dashboard allows you to quickly compare the average utilization metrics for
-memory, cpu, network, and I/O across different BYO application VSIs in the table. Additionally, the graph
+The following is a Performance Dashboard that allows you to quickly compare the average utilization metrics for
+memory, CPU, network, and I/O across different BYO application VSIs in the table. Additionally, the graph
 visualizes the current and maximum utilization metrics for memory and cpu, providing a more
 comprehensive view of usage.
 
 ![](./images/image15.png)
 
+**Data Lake application using Presto Performance Dashboard:**
+
+VSIs performance is measured by running IBM PrestoDB and the data warehousing benchmark called
+TPC-H, measuring query times in milliseconds. The normalized performance uplift compares current
+VSIs to prior ones using the formula:
+Normalized performance uplift = (1/query time on bx3d) / (1/query time on bx2d).
+The graph visualizes the normalized performance uplift and query execution
+time for the VSIs that are created during the deployment.
+
+In the following sample, the x-axis represents time, the left y-axis represents normalized performance
+uplift (percentage), and the right y-axis represents query execution time. Each line represents
+the trend of its respective metric over time.
+
+![](./images/image16.png)
+
 4. **Benchmark Logs**
 
 The dashboard provides an overview of all executed benchmarks. Each benchmark entry includes key
 information such as benchmark name, date executed, status, category and VSI name. Status of each
-benchmark can be seen as below. You have the option to download the benchmark log report for
-each executed benchmark. Page navigation functionality has been added to enhance user experience.
+benchmark can be seen in the following screenshot. You have the option to download the benchmark log report for
+each executed benchmark. Page navigation functionality has been added to enhance the user experience.
 
-![](./images/image16.png)
+![](./images/image17.png)
 
 5. **Reset and delete the application or workload VSIs:**
 
 Complete the followings steps to reset benchmark data and delete application VSIs from the
 dashboard portal:
 
-- Click the Reset action: You can **reset** the benchmark data for the application workload for
+- Click the reset action: You can **reset** the benchmark data for the application workload for
 the application VSIs for the selected application from the dashboard portal.
 
 - Click the delete action, A confirmation dialog displays, which includes a message about the
 action you are about to take. You need to mention "Delete" before proceeding further with VSI
-deletion. It will take around 2-3 minutes to delete the VSIs for the selected application.
+deletion. It takes around 2-3 minutes to delete the VSIs for the selected application.
 
 ![](./images/image11.png)
+
+6. **Destroy IBM Cloud VPC sandbox resources via IBM Schematics and delete the workspace**
+
+- Go to your IBM Schematics workspace and destroy the IBM Cloud sandbox environment.
+
+![](./images/image18.png)
+
+- Once the sandbox resources are destroyed, you can delete the IBM Schematics workspace.
+
+![](./images/image19.png)
+
+### Troubleshooting and FAQs
+
+If you're unable to find a solution to your problem or have a question that's not listed in the
+[FAQs](./sandbox-faqs.md), you can report a problem, provide suggestions, or comments regarding
+the IBM Cloud Virtual Servers for VPC Sandbox and open a GitHub issue on the IBM Sandbox
+Repository at <https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues>. All issues will be
+addressed in a best effort by developers.
+
+### Support
+
+Though the materials provided herein are not supported by the IBM Service organization, your
+comments are welcomed by the developers, who reserve the right to revise or remove the materials
+at any time. For reporting a problem, providing suggestions, or comments regarding the IBM Cloud
+Virtual Servers for VPC Sandbox, you can open a GitHub issue on the IBM Sandbox Repository at
+<https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues>. All issues will be addressed in a
+best effort by developers.
+
+There are no warranties of any kind, and there is no service or technical support
+available for these materials from IBM. As a recommended practice, carefully review any materials
+before using them.
 
 ### Glossary
 
@@ -365,11 +420,3 @@ deletion. It will take around 2-3 minutes to delete the VSIs for the selected ap
 - CLX: Cascade lake is 2nd Generation Intel® Xeon® Scalable Processors
 - VPC - Virtual Private Cloud
 - VSI - Virtual Server Instance
-
-### Troubleshooting and FAQs
-
-If you're unable to find a solution to your problem or have a question that's not listed in the
-[FAQs](./sandbox-faqs.md), you can report a problem, provide suggestions, or comments regarding
-the IBM Cloud Virtual Servers for VPC Sandbox and open a GitHub issue on the IBM Sandbox
-Repository at <https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues>. All issues will be
-addressed as best effort by developers.

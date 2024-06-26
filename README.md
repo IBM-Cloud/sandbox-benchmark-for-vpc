@@ -122,8 +122,7 @@ to run in your local terminal so you can access the sandbox dashboard:
 ## Support
 
 If you have problems or questions when using the underlying IBM Cloud VPC infrastructure, you can
-get help by searching for information or by asking questions through one of the forums.
-You can also create a case in the [IBM Cloud console](https://cloud.ibm.com/unifiedsupport/supportcenter).
+create a case in the [IBM Cloud console](https://cloud.ibm.com/unifiedsupport/supportcenter).
 
 Though the materials provided herein are not supported by the IBM Service organization, your
 comments are welcomed by the developers, who reserve the right to revise or remove the materials
@@ -135,11 +134,6 @@ best effort by developers.
 Please note that there are no warranties of any kind, and there is no service or technical support
 available for these materials from IBM. As a recommended practice, carefully review any materials
 before using them.
-
-## Releases
-
-Minor and major releases to this repository occur on Tuesday / Thursday at 6:00 PM Central
-Time. Hot patches are released on demand.
 
 ## References
 
