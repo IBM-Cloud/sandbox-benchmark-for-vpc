@@ -126,6 +126,7 @@ Though the materials provided herein are not supported by the IBM Service organi
 Please note that there are no warranties of any kind, and there is no service or technical support available for these materials from IBM. As a recommended practice, carefully review any materials before using them.
 
 If you have problems or questions when you are using the IBM Sandbox for VPC, you can use the following options:
+
 - [User Guide](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/blob/main/user-guide/sandbox-user-guide.md)
 - [FAQ](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/blob/main/user-guide/sandbox-faqs.md)
 - Open a [git issue](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues)
