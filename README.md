@@ -121,19 +121,14 @@ to run in your local terminal so you can access the sandbox dashboard:
 
 ## Support
 
-If you have problems or questions when using the underlying IBM Cloud VPC infrastructure, you can
-create a case in the [IBM Cloud console](https://cloud.ibm.com/unifiedsupport/supportcenter).
+Though the materials provided herein are not supported by the IBM Service organization, your comments are welcomed by the developers, who reserve the right to revise or remove the materials at any time. For reporting a problem, providing suggestions, or comments regarding the IBM Cloud Virtual Servers for VPC Sandbox, users can open a [GitHub issue](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues). All issues will be addressed as best effort by developers.
 
-Though the materials provided herein are not supported by the IBM Service organization, your
-comments are welcomed by the developers, who reserve the right to revise or remove the materials
-at any time. For reporting a problem, providing suggestions, or comments regarding the IBM Cloud
-Virtual Servers for VPC Sandbox, users can open a GitHub issue on the IBM Sandbox Repository at
-<https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues>. All issues will be addressed as
-best effort by developers.
+Please note that there are no warranties of any kind, and there is no service or technical support available for these materials from IBM. As a recommended practice, carefully review any materials before using them.
 
-Please note that there are no warranties of any kind, and there is no service or technical support
-available for these materials from IBM. As a recommended practice, carefully review any materials
-before using them.
+If you have problems or questions when you are using the IBM Sandbox for VPC, you can use the following options:
+- [User Guide](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/blob/main/user-guide/sandbox-user-guide.md)
+- [FAQ](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/blob/main/user-guide/sandbox-faqs.md)
+- Open a [git issue](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues)
 
 ## References
 
