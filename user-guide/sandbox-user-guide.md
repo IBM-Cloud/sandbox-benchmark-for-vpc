@@ -18,7 +18,7 @@ The IBM Cloud VPC sandbox is a customer-managed, automated deployment deployed i
 
 1. An IBM Cloud account to deploy IBM Cloud Virtual Servers for VPC Sandbox.
 2. An IBM Cloud API key. For instructions, refer to [Create API Key](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui#create_user_key).
-3. An IBM SSH key for the bastion host VSI and dashboard VSI. For instructions, refer to [Create SSH Key](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui).
+3. Create an IBM SSH key for the bastion host VSI and dashboard VSI. For instructions, refer to [Creating your SSH key by using the UI]([https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui#generating-ssh-keys)).
 4. The following permissions:
 
    | Service | Platform roles | Service roles | Reference links |
@@ -53,6 +53,25 @@ the IBM Cloud VPC sandbox.
 
 - Navigate to the performance dashboard page and evaluate performance data for preselected
   benchmark applications or user application.
+- Users can SSH to the VSIs to troubleshoot or optimize the operating system as part of benchmark
+  evaluation or to access logs and metrics directly.
+
+##### SSH Instructions for Sandbox Application VSIs
+
+Ensure you have the SSH key obtained from completing the [prerequisites](#prerequisites). Additionally,
+download that SSH private key used for logging into the bastion host, which was specified during
+the Terraform module setup for the sandbox environment.
+
+Follow these steps to SSH into the sandbox application VSIs:
+
+  1. From your workstation, copy the bastion private SSH key to the bastion host
+    `scp -i [SSHKeyPath] -r [SSHKeyPath] root@[BastionHostIP]:/root`
+  2. Retrieve VSIs' IP address from the IBM Cloud VPC portal or via CLI/API.
+  3. Connect to the Bastion host:
+    `ssh -i [SSHKeyPath] root@[BastionHostIP]`
+  4. SSH into the Application VSI using its internal IP:
+    `ssh -i [SSHKeyPath] ubuntu@[ApplicationIP]`
+  5. Once logged in successfully, proceed with necessary operations.
 
 #### Step 5: Delete application VSIs
 

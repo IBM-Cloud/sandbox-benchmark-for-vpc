@@ -195,5 +195,6 @@ resource "ibm_is_instance" "dashboard-vm" {
     "sandbox_uipassword"    = var.sandbox_uipassword
     "personal_access_token" = var.personal_access_token
     "sandbox_ui_repo_url"   = var.sandbox_ui_repo_url
+    "bastion_ssh_key_name"  = var.ibmcloud_ssh_key_name
   })
 }

@@ -48,4 +48,4 @@ fi
 
 unzip sandbox.zip -d /opt/sandbox-dashboard
 cd /opt/sandbox-dashboard/*/resources
-./deploy.sh ${iam_trustedprofile} ${sandbox_uipassword}
+./deploy.sh ${iam_trustedprofile} ${sandbox_uipassword} ${bastion_ssh_key_name}
