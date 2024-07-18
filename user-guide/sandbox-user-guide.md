@@ -65,12 +65,15 @@ the Terraform module setup for the sandbox environment.
 Follow these steps to SSH into the sandbox application VSIs:
 
   1. From your workstation, copy the bastion private SSH key to the bastion host
-    `scp -i [SSHKeyPath] -r [SSHKeyPath] root@[BastionHostIP]:/root`
+     
+     `scp -i [SSHKeyPath] -r [SSHKeyPath] root@[BastionHostIP]:/root`
   2. Retrieve VSIs' IP address from the IBM Cloud VPC portal or via CLI/API.
-  3. Connect to the Bastion host:
-    `ssh -i [SSHKeyPath] root@[BastionHostIP]`
+  3. Connect to the Bastion host
+     
+     `ssh -i [SSHKeyPath] root@[BastionHostIP]`
   4. SSH into the Application VSI using its internal IP:
-    `ssh -i [SSHKeyPath] ubuntu@[ApplicationIP]`
+   
+     `ssh -i [SSHKeyPath] ubuntu@[ApplicationIP]`
   5. Once logged in successfully, proceed with necessary operations.
 
 #### Step 5: Delete application VSIs
