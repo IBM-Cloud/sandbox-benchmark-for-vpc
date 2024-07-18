@@ -18,7 +18,7 @@ The IBM Cloud VPC sandbox is a customer-managed, automated deployment deployed i
 
 1. An IBM Cloud account to deploy IBM Cloud Virtual Servers for VPC Sandbox.
 2. An IBM Cloud API key. For instructions, refer to [Create API Key](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui#create_user_key).
-3. Create an IBM SSH key for the bastion host VSI and dashboard VSI. For instructions, refer to [Creating your SSH key by using the UI]([https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui#generating-ssh-keys)).
+3. Create an IBM SSH key for the bastion host VSI and dashboard VSI. For instructions, refer to [Creating your SSH key by using the UI](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui#generating-ssh-keys).
 4. The following permissions:
 
    | Service | Platform roles | Service roles | Reference links |
