@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exec > >(tee -a /root/dashboard_userdata_output.log) 2>&1
 ## Setup logdna agent
 if [ ! -z "${ingestion_key}" ]; then
 
@@ -35,17 +35,17 @@ sudo yum config-manager --add-repo=https://download.docker.com/linux/centos/dock
 sudo yum -y install unzip git docker-ce --allowerasing
 sudo systemctl enable --now docker
 
-curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o docker-compose
-mv docker-compose /usr/local/bin && sudo chmod +x /usr/local/bin/docker-compose
-ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o docker-compose
+sudo mv docker-compose /usr/local/bin && sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 # Download Sandbox UI repository
 if [ ! -z "${personal_access_token}" ]; then
-curl -H "Authorization: token ${personal_access_token}" -H "Accept: application/vnd.github.v3.raw" -L ${sandbox_ui_repo_url} -o sandbox.zip
+sudo curl -H "Authorization: token ${personal_access_token}" -H "Accept: application/vnd.github.v3.raw" -L ${sandbox_ui_repo_url} -o sandbox.zip
 else
-curl -H "Accept: application/vnd.github.v3.raw" -L ${sandbox_ui_repo_url} -o sandbox.zip
+sudo curl -H "Accept: application/vnd.github.v3.raw" -L ${sandbox_ui_repo_url} -o sandbox.zip
 fi
 
-unzip sandbox.zip -d /opt/sandbox-dashboard
+sudo unzip sandbox.zip -d /opt/sandbox-dashboard
 cd /opt/sandbox-dashboard/*/resources
-./deploy.sh ${iam_trustedprofile} ${sandbox_uipassword} ${bastion_ssh_key_name}
+sudo ./deploy.sh ${iam_trustedprofile} ${sandbox_uipassword} ${bastion_ssh_key_id} | tee -a deploy_output.log
