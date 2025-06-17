@@ -133,14 +133,9 @@ resource "ibm_is_security_group_rule" "dashboard_outbound" {
 
 # Create Virtual Server Instances
 
-# Get SSH Key for Virtual Server creates
-data "ibm_is_ssh_key" "ssh_key_id" {
-  name = var.ibmcloud_ssh_key_name
-}
-
 # Get Linux image for Virtual Server creates
 data "ibm_is_image" "linux" {
-  name = "ibm-redhat-8-8-minimal-amd64-3"
+  name = "ibm-redhat-9-6-minimal-amd64-1"
 }
 
 ### Create Trusted Profile
@@ -153,8 +148,7 @@ resource "ibm_iam_trusted_profile_policy" "vpc_policy" {
   roles      = ["Writer", "Viewer", "Reader", "Editor"]
 
   resources {
-    service           = "is"
-    resource_group_id = data.ibm_resource_group.resource_group.id
+    service = "is"
   }
 }
 
@@ -167,6 +161,32 @@ resource "ibm_iam_trusted_profile_policy" "rg_policy" {
     resource      = data.ibm_resource_group.resource_group.id
   }
 }
+
+resource "tls_private_key" "generated_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "ibm_is_ssh_key" "dynamic_ssh_key" {
+  name       = "${var.ibmcloud_ssh_key_name}-${local.uuid}"
+  public_key = tls_private_key.generated_key.public_key_openssh
+}
+
+resource "local_file" "private_key" {
+  content         = tls_private_key.generated_key.private_key_openssh
+  filename        = "${path.module}/generated_key.pem"
+  file_permission = "0600"
+}
+
+data "http" "schematics_public_ip" {
+  url = "https://api.ipify.org" # Public IP detection service
+}
+
+locals {
+  schematics_ip   = chomp(data.http.schematics_public_ip.response_body)
+  all_allowed_ips = distinct(concat(var.remote_allowed_ips, [local.schematics_ip]))
+}
+
 
 ### Create Dashboard VM ####
 resource "ibm_is_instance" "dashboard-vm" {
@@ -186,8 +206,8 @@ resource "ibm_is_instance" "dashboard-vm" {
   }
   vpc  = ibm_is_vpc.sandbox-vpc.id
   zone = element(var.zones, count.index)
+  keys = [var.ibmcloud_ssh_key_id, ibm_is_ssh_key.dynamic_ssh_key.id]
 
-  keys = [data.ibm_is_ssh_key.ssh_key_id.id]
   user_data = templatefile("${path.module}/scripts/dashboard-userdata.sh", {
     "ingestion_key"         = local.ingestion_key
     "region"                = var.region
@@ -195,6 +215,23 @@ resource "ibm_is_instance" "dashboard-vm" {
     "sandbox_uipassword"    = var.sandbox_uipassword
     "personal_access_token" = var.personal_access_token
     "sandbox_ui_repo_url"   = var.sandbox_ui_repo_url
-    "bastion_ssh_key_name"  = var.ibmcloud_ssh_key_name
+    "bastion_ssh_key_id"    = var.ibmcloud_ssh_key_id
   })
+}
+
+# null resource to wait for the dashboard VM to be ready
+resource "null_resource" "check_status" {
+  provisioner "local-exec" {
+    command     = "${path.module}/scripts/check_status.sh"
+    interpreter = ["bash", "-c"]
+    environment = {
+      LOCAL_KEY_PATH = local_file.private_key.filename
+      BASTION_USER   = "root"
+      BASTION_HOST   = local.floating_ip
+      DASHBOARD_USER = "root"
+      DASHBOARD_IP   = local.dashboardVM_address
+      KEY_NAME       = ibm_is_ssh_key.dynamic_ssh_key.name
+    }
+  }
+  depends_on = [ibm_is_instance.dashboard-vm]
 }

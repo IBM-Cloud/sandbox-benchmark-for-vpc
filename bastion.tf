@@ -5,7 +5,8 @@ resource "ibm_is_security_group" "login_sg" {
 }
 
 resource "ibm_is_security_group_rule" "login_ingress_tcp" {
-  for_each  = toset(var.remote_allowed_ips)
+  # for_each  = toset(var.remote_allowed_ips)
+  for_each  = toset(local.all_allowed_ips)
   group     = ibm_is_security_group.login_sg.id
   direction = "inbound"
   remote    = each.key
@@ -24,15 +25,15 @@ resource "ibm_is_security_group_rule" "login_egress_tcp" {
 }
 
 module "bastion_host" {
-  source                = "./modules/instance"
-  name                  = "${var.basename}-bastion-${local.uuid}"
-  image_name            = data.ibm_is_image.linux.id
-  vpc_id                = ibm_is_vpc.sandbox-vpc.id
-  zone_name             = var.zones[0]
-  ibmcloud_ssh_key_name = var.ibmcloud_ssh_key_name
-  resource_group_id     = data.ibm_resource_group.resource_group.id
-  security_group_ids    = [ibm_is_security_group.login_sg.id]
-  subnet_id             = ibm_is_subnet.subnets[0].id
+  source              = "./modules/instance"
+  name                = "${var.basename}-bastion-${local.uuid}"
+  image_name          = data.ibm_is_image.linux.id
+  vpc_id              = ibm_is_vpc.sandbox-vpc.id
+  zone_name           = var.zones[0]
+  ibmcloud_ssh_key_id = [var.ibmcloud_ssh_key_id, ibm_is_ssh_key.dynamic_ssh_key.id]
+  resource_group_id   = data.ibm_resource_group.resource_group.id
+  security_group_ids  = [ibm_is_security_group.login_sg.id]
+  subnet_id           = ibm_is_subnet.subnets[0].id
 }
 
 resource "ibm_is_floating_ip" "main" {

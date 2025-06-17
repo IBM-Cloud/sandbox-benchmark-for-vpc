@@ -9,7 +9,6 @@ This user guide provides you with step-by-step instructions for deploying the au
 This deployment uses Terraform and IBM Cloud Schematics as automation frameworks.
 
 ### Roles and responsibility
-
 The IBM Cloud VPC sandbox is a customer-managed, automated deployment deployed into your IBM Cloud VPC account. You own the resources that the automated deployment creates and are responsible for managing them.
 
 **NOTE:** To minimize cost, it is recommended that the resources be deleted after completion.
@@ -18,15 +17,15 @@ The IBM Cloud VPC sandbox is a customer-managed, automated deployment deployed i
 
 1. An IBM Cloud account to deploy IBM Cloud Virtual Servers for VPC Sandbox.
 2. An IBM Cloud API key. For instructions, refer to [Create API Key](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui#create_user_key).
-3. Create an IBM SSH key for the bastion host VSI and dashboard VSI. For instructions, refer to [Creating your SSH key by using the UI](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui#generating-ssh-keys).
+3. Create an IBM SSH key for the bastion host VSI and dashboard VSI. For instructions, refer to [Creating your SSH key by using the UI]([https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys&interface=ui#generating-ssh-keys)).
 4. The following permissions:
-
+   
    | Service | Platform roles | Service roles | Reference links |
    |---|---|---|---|
    | All Account Management services | Administrator | | For [trusted profile](https://cloud.ibm.com/docs/account?topic=account-create-trusted-profile&interface=ui#tp-roles-reqs) |
    | IAM Identity Service | Administrator | | For [trusted profile](https://cloud.ibm.com/docs/account?topic=account-create-trusted-profile&interface=ui#tp-roles-reqs) |
    | IBM Log Analysis | Editor | Manager | [Log Analysis Access](https://cloud.ibm.com/docs/log-analysis?topic=log-analysis-work_iam#devops_account) |
-   | VPC Infrastructure | Editor | Manager | [VPC Managing Access](https://cloud.ibm.com/docs/vpc?topic=vpc-iam-getting-started&interface=ui) |
+   | VPC Infrastructure | Editor | Manager | [VPC Managing Access](https://cloud.ibm.com/docs/vpc?topic=vpc-iam-getting-started&interface=ui) | 
 
 ### High-level flow for deploying and using the sandbox environment
 
@@ -53,8 +52,7 @@ the IBM Cloud VPC sandbox.
 
 - Navigate to the performance dashboard page and evaluate performance data for preselected
   benchmark applications or user application.
-- Users can SSH to the VSIs to troubleshoot or optimize the operating system as part of benchmark
-  evaluation or to access logs and metrics directly.
+- Users can SSH to the VSIs to troubleshoot or optimize the operating system as part of benchmark evaluation or to access logs and metrics directly.
 
 ##### SSH Instructions for Sandbox Application VSIs
 
@@ -65,15 +63,12 @@ the Terraform module setup for the sandbox environment.
 Follow these steps to SSH into the sandbox application VSIs:
 
   1. From your workstation, copy the bastion private SSH key to the bastion host
-     
-     `scp -i [SSHKeyPath] -r [SSHKeyPath] root@[BastionHostIP]:/root`
+    `scp -i [SSHKeyPath] -r [SSHKeyPath] root@[BastionHostIP]:/root`
   2. Retrieve VSIs' IP address from the IBM Cloud VPC portal or via CLI/API.
-  3. Connect to the Bastion host
-     
-     `ssh -i [SSHKeyPath] root@[BastionHostIP]`
+  3. Connect to the Bastion host:
+    `ssh -i [SSHKeyPath] root@[BastionHostIP]`
   4. SSH into the Application VSI using its internal IP:
-   
-     `ssh -i [SSHKeyPath] ubuntu@[ApplicationIP]`
+    `ssh -i [SSHKeyPath] ubuntu@[ApplicationIP]`
   5. Once logged in successfully, proceed with necessary operations.
 
 #### Step 5: Delete application VSIs
@@ -86,7 +81,7 @@ running the sandbox, use the "Delete process” after every application that you
 run in the sandbox dashboard to evaluate performance. After you delete the individual sandbox
 applications VSIs resources, you must also delete the corresponding workspace environment
 separately by using IBM Cloud Schematics capability to eliminate incurring any costs for the sandbox.
-IBM Schematics will not delete application VSIs created from the sandbox dashboard. Delete them from
+IBM Schematics will not delete application VSIs created from the sandbox dashboard. Delete them from 
 the sandbox dashboard only.
 
 #### Step 6: Destroy IBM Cloud VPC sandbox resources through IBM Schematics and delete the workspace
@@ -95,7 +90,6 @@ the sandbox dashboard only.
   the IBM Schematics workspace.
 
 ### Detail flow for deploying and using the sandbox environment
-
 This section describes the process of using the IBM Cloud VPC sandbox environment.
 
 #### IBM Cloud VPC sandbox deployment using IBM Cloud Schematics
@@ -114,11 +108,10 @@ This section describes the process of using the IBM Cloud VPC sandbox environmen
 3. After you create the sandbox workspace, provide the required inputs in the IBM Schematics for
    Terraform module and click "Apply plan" to deploy the sandbox environment:
    - **ibmcloud_api_key**: Obtain this value by completing the prerequisites.
-   - **ibmcloud_ssh_key_name**: Obtain this value by completing the prerequisites. Additionally,
+   - **ibmcloud_ssh_key_id**: Obtain this value by completing the prerequisites. Additionally,
      download the SSH private key, which is used to log in to the bastion host.
    - **resource_group**: Obtain this value by completing the prerequisites.
-   - **personal_access_token**: Obtain this value by completing the prerequisites. Internal IBM
-     use only
+   - **personal_access_token**: Obtain this value by completing the prerequisites.
    - **zones**: `["us-south-1"]`
      Optionally, you can choose `us-south-2` or `us-south-3`.
    - **remote_allowed_ips**: To access the sandbox dashboard, provide your current public
@@ -134,7 +127,7 @@ This section describes the process of using the IBM Cloud VPC sandbox environmen
 
    The repository located at <https://github.com/IBM-Cloud/sandbox-benchmark-dashboard-for-vpc> is
    used for setting up the sandbox dashboard application.
-
+   
    **NOTE:** For sensitive data, it is recommended to check the "Sensitive" box.
 
 ![](./images/image3.png)
@@ -205,7 +198,7 @@ The sandbox targets two application workloads and one customer-owned application
 2. **HuggingFace Inference Application:** The HuggingFace inference-based benchmark runs several
     NLP models on a text classification task: Bert-base-uncased and Roberta-base. Working with
     popular HuggingFace transformers implemented with PyTorch and the latest version of
-    HuggingFace Optimum Intel, HuggingFace is an open-source library dedicated to hardware
+    HuggingFace Optimum Intel, HuggingFace is an open-source library dedicated to hardware 
     acceleration for Intel platforms.
 
     For a HuggingFace workload, the 16 vCPUs VSIs profiles of SPR (Bx3d-16x80) and CLX (Bx2d-16x64)
@@ -258,12 +251,10 @@ You can select the VSIs profiles for application workloads.
 
 **Installing and setting up the BYO application:**
 
-When you initiate a setup for the BYO application, you can pass a user-data script to install and
-set up your workload application. The only supported format is shell scripts. This user-data is
-executed by cloud-init in the VSI and copied to the /var/lib/cloud/instance/ directory. You can
-find the execution logs of the user-data script in the /var/log/cloud-init-output.log file in the
-BYO application VSIs. Optionally, you can set up the IBM Cloud LogDNA service with BYO application
-VSIs to see the application installation logs.
+When you initiate a setup for the BYO application, you can pass a user-data script to install and set up your workload application. The only supported format is shell scripts. This user-data is executed by cloud-init in the VSI and copied to
+the /var/lib/cloud/instance/ directory. You can find the execution logs of the user-data script
+in the /var/log/cloud-init-output.log file in the BYO application VSIs. Optionally, you can set up the IBM
+Cloud LogDNA service with BYO application VSIs to see the application installation logs.
 
 The following example is a sample installation script for BYO application. The sample script also shows how to
 set up up LogDNA Service if needed. You need to get the **LOGDNA_INGESTION_KEY** from LogDNA service
@@ -279,7 +270,7 @@ wget -O- https://assets.logdna.com/logdna.gpg | sudo apt-key add -
 sudo apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get install logdna-agent -y
 sudo bash -c 'cat << EOF > /etc/logdna.env
-LOGDNA_HOST="logs.REGION.logging.cloud.ibm.com"
+LOGDNA_HOST="logs.us-south.logging.cloud.ibm.com"
 LOGDNA_ENDPOINT=/logs/agent
 LOGDNA_INGESTION_KEY="LOGDNA_INGESTION_KEY"
 EOF'
@@ -418,17 +409,26 @@ deletion. It takes around 2-3 minutes to delete the VSIs for the selected applic
 
 ![](./images/image19.png)
 
-## Support
+### Troubleshooting and FAQs
 
-Though the materials provided herein are not supported by the IBM Service organization, your comments are welcomed by the developers, who reserve the right to revise or remove the materials at any time. For reporting a problem, providing suggestions, or comments regarding the IBM Cloud Virtual Servers for VPC Sandbox, users can open a [GitHub issue](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues). All issues will be addressed as best effort by developers.
+If you're unable to find a solution to your problem or have a question that's not listed in the
+[FAQs](./sandbox-faqs.md), you can report a problem, provide suggestions, or comments regarding
+the IBM Cloud Virtual Servers for VPC Sandbox and open a GitHub issue on the IBM Sandbox
+Repository at <https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues>. All issues will be
+addressed in a best effort by developers.
 
-Please note that there are no warranties of any kind, and there is no service or technical support available for these materials from IBM. As a recommended practice, carefully review any materials before using them.
+### Support
 
-If you have problems or questions when you are using the IBM Sandbox for VPC, you can use the following options:
+Though the materials provided herein are not supported by the IBM Service organization, your
+comments are welcomed by the developers, who reserve the right to revise or remove the materials
+at any time. For reporting a problem, providing suggestions, or comments regarding the IBM Cloud
+Virtual Servers for VPC Sandbox, you can open a GitHub issue on the IBM Sandbox Repository at
+<https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues>. All issues will be addressed in a
+best effort by developers.
 
-- [User Guide](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/blob/main/user-guide/sandbox-user-guide.md)
-- [FAQ](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/blob/main/user-guide/sandbox-faqs.md)
-- Open a [git issue](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues)
+There are no warranties of any kind, and there is no service or technical support
+available for these materials from IBM. As a recommended practice, carefully review any materials
+before using them.
 
 ### Glossary
 

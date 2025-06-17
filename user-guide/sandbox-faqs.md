@@ -2,11 +2,13 @@
 Last updated 2024-06-05
 
 Q: How do I get access to the IBM Sandbox GitHub repository?
-A: You can access the IBM sandbox Github repository [here](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc).
+A: To access the IBM Sandbox GitHub repository, sign up for an account on the IBM GitHub
+(github.ibm.com) using your IBM email. After successful sign-in, you can find the repository
+[here](https://github.ibm.com/workload-eng-services/sandbox).
 
 Q: How do I raise issues to the Sandbox project on GitHub?
 A: Navigate to the repository page and click on the "Issues" tab near the top. This tab manages
-all issues related to the project. You can raise your issues [here](https://github.com/IBM-Cloud/sandbox-benchmark-for-vpc/issues).
+all issues related to the project. You can raise your issues [here](https://github.ibm.com/workload-eng-services/sandbox/issues).
 
 Q: What should I do if my Apply Plan fails while deploying IBM Sandbox via Schematics?
 A: First, ensure you've provided all the required input variables for the Terraform module. If

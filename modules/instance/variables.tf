@@ -30,9 +30,9 @@ variable "zone_name" {
   type        = string
 }
 
-variable "ibmcloud_ssh_key_name" {
+variable "ibmcloud_ssh_key_id" {
   description = "The id of the ssh keys"
-  type        = string
+  type        = list(string)
 }
 
 variable "resource_group_id" {

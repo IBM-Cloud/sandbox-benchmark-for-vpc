@@ -23,6 +23,8 @@ variable "ibmcloud_api_key" {
 variable "ibmcloud_ssh_key_name" {
   description = "The IBM Cloud platform SSH key name used to deploy sandbox instances"
   type        = string
+  default     = "sandbox"
+  # sensitive   = true
   validation {
     condition     = can(regex("^[a-z0-9-]{1,}$", var.ibmcloud_ssh_key_name))
     error_message = "Use lowercase alphanumeric characters and hyphens only (without spaces)."
@@ -40,15 +42,26 @@ variable "resource_group" {
 }
 
 variable "region" {
-  description = "IBM Cloud region where all resources will be deployed. SPR VSIs are available in Dallas, London, Frankfurt etc. Please refer [this](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui#next-gen-profiles)"
+  description = "IBM Cloud region where all resources will be deployed. SPR VSIs are only available in Dallas (us-south) region"
   type        = string
   default     = "us-south"
+  validation {
+    condition = contains([
+      "us-south",
+      "us-east"
+    ], var.region)
+    error_message = "SPR VSIs are only available in Dallas (us-south) region."
+  }
 }
 
 variable "zones" {
   description = "IBM Cloud zone name within the selected region where the Sandbox infrastructure should be deployed. [Learn more](https://cloud.ibm.com/docs/vpc?topic=vpc-creating-a-vpc-in-a-different-region#get-zones-using-the-cli)"
   type        = list(string)
   default     = ["us-south-1"]
+  validation {
+    condition     = length(var.zones) >= 1 && alltrue([for zone in var.zones : startswith(zone, "us-south-")])
+    error_message = "There should be at least one zone specified or all zones must start with the region prefix 'us-south-'."
+  }
 }
 
 variable "address_prefix_cidrs" {
@@ -107,7 +120,7 @@ variable "logdna_name" {
 variable "logdna_integration" {
   description = "Set to false if LogDNA not needed, only recommend disabling for non-production environments."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "logdna_ingestion_key" {
@@ -175,11 +188,16 @@ variable "personal_access_token" {
   description = "Personal access token, Internal IBM use only"
   type        = string
   sensitive   = true
-  default     = ""
 }
 
 variable "sandbox_ui_repo_url" {
   description = "Sandbox UI repo download URL, Sample repo URL https://github.com/username/repository-name/archive/master.zip"
   type        = string
-  default     = "https://github.com/IBM-Cloud/sandbox-benchmark-dashboard-for-vpc/archive/main.zip"
+  default     = "https://github.ibm.com/workload-eng-services/sandbox-ui/archive/main.zip"
+}
+
+variable "ibmcloud_ssh_key_id" {
+  description = "The IBM Cloud platform SSH key name used to deploy sandbox instances"
+  type        = string
+  sensitive   = true
 }
