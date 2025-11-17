@@ -35,9 +35,8 @@ sudo yum config-manager --add-repo=https://download.docker.com/linux/centos/dock
 sudo yum -y install unzip git docker-ce --allowerasing
 sudo systemctl enable --now docker
 
-sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o docker-compose
-sudo mv docker-compose /usr/local/bin && sudo chmod +x /usr/local/bin/docker-compose
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo yum -y install docker-compose-plugin
+alias docker-compose="docker compose"
 
 # Download Sandbox UI repository
 if [ ! -z "${personal_access_token}" ]; then
