@@ -22,7 +22,7 @@ fi
 
 # Step 1: Copy SSH key to bastion host
 echo "Copying SSH key to bastion host..."
-scp -i "$LOCAL_KEY_PATH" -o StrictHostKeyChecking=no "$LOCAL_KEY_PATH" "$BASTION_USER@$BASTION_HOST:/root/$KEY_NAME"
+scp -i "$LOCAL_KEY_PATH" -o StrictHostKeyChecking=no "$LOCAL_KEY_PATH" "$BASTION_USER@$BASTION_HOST:/home/$BASTION_USER/$KEY_NAME"
 
 # Step 2: SSH into bastion host, then into dashboard VM, and monitor Docker containers
 echo "Connecting to bastion host and monitoring containers on dashboard VM..."
@@ -32,16 +32,16 @@ ssh-keygen -R "$BASTION_HOST" >/dev/null 2>&1
 
 # Modified inner SSH commands with Docker accessibility fixes
 ssh -o StrictHostKeyChecking=no -i "$LOCAL_KEY_PATH" "$BASTION_USER@$BASTION_HOST" << EOF
-  ssh -o StrictHostKeyChecking=no -i "/root/$KEY_NAME" "$DASHBOARD_USER@$DASHBOARD_IP" << 'INNER_EOF'
+  ssh -o StrictHostKeyChecking=no -i "/home/$BASTION_USER/$KEY_NAME" "$DASHBOARD_USER@$DASHBOARD_IP" << 'INNER_EOF'
     # Load environment settings
     source ~/.bashrc 2>/dev/null || true
     source ~/.profile 2>/dev/null || true
     echo "Waiting for Docker to be installed..."
-    while ! docker --version > /dev/null 2>&1; do
+    while ! sudo docker --version > /dev/null 2>&1; do
       sleep 10
     done
     # Use sudo if needed (common in non-interactive sessions)
-    DOCKER_CMD="docker"
+    DOCKER_CMD="sudo docker"
 
     echo "Waiting for Docker to become responsive..."
     while ! \$DOCKER_CMD info &>/dev/null; do
@@ -62,5 +62,5 @@ EOF
 
 # Step 3: Delete the SSH key from bastion host
 echo "Cleaning up: Deleting SSH key from bastion host..."
-ssh -i "$LOCAL_KEY_PATH" "$BASTION_USER@$BASTION_HOST" "rm /root/$KEY_NAME"
+ssh -i "$LOCAL_KEY_PATH" "$BASTION_USER@$BASTION_HOST" "rm /home/$BASTION_USER/$KEY_NAME"
 echo "Script completed."
