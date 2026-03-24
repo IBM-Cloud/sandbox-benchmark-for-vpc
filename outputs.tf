@@ -13,7 +13,7 @@ output "trusted_profile" {
 }
 
 locals {
-  linux_access        = "ssh -i [SSHKeyPath] -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -L 38080:%s:80 root@%s. You can access the sandbox from your local http://localhost:38080"
+  linux_access        = "ssh -i [SSHKeyPath] -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -L 38080:%s:80 vpcuser@%s. You can access the sandbox from your local http://localhost:38080"
   floating_ip         = ibm_is_floating_ip.main.address
   dashboardVM_address = ibm_is_instance.dashboard-vm[0].primary_network_interface[0].primary_ip[0].address
 }

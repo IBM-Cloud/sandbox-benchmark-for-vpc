@@ -226,9 +226,9 @@ resource "null_resource" "check_status" {
     interpreter = ["bash", "-c"]
     environment = {
       LOCAL_KEY_PATH = local_file.private_key.filename
-      BASTION_USER   = "root"
+      BASTION_USER   = "vpcuser"
       BASTION_HOST   = local.floating_ip
-      DASHBOARD_USER = "root"
+      DASHBOARD_USER = "vpcuser"
       DASHBOARD_IP   = local.dashboardVM_address
       KEY_NAME       = ibm_is_ssh_key.dynamic_ssh_key.name
     }
